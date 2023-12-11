@@ -6,22 +6,22 @@ import '../Profile/profil.css'
 import SignOut from '../../components/SignOut/SignOut';
 
 function Profile() {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();  //Envoie une action au store qui déclenche des mises à jour de l'état 
+  const user = useSelector((state) => state.auth.user);//extraire des données du store Redux
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         // Récupérez le token depuis le local storage
         const token = localStorage.getItem('token');
-
+          // Effectuez une requête pour récupérer le profil de l'utilisateur avec le token
         const response = await fetch('http://localhost:3001/api/v1/user/profile', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
           },
         });
-
+         // Gérez les erreurs lors de la récupération du profil
         if (!response.ok) {
           const errorData = await response.json();
           console.error('Error fetching user profile:', errorData);
@@ -36,16 +36,16 @@ function Profile() {
           email: profileData.body.email,
           firstName: profileData.body.firstName,
           lastName: profileData.body.lastName,
-          // Ajoutez d'autres propriétés si nécessaire
+       
         };
-
+    // Mettez à jour le profil de l'utilisateur dans le store Redux
         dispatch(setUserProfile(userProfile));
       } catch (error) {
         console.error('Error fetching user profile:', error);
         dispatch(profileFetchFailed());
       }
     };
-
+    // Exécutez la fonction pour récupérer le profil lors du montage du composant
     fetchProfile();
   }, [dispatch]);
 

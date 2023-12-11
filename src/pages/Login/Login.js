@@ -12,20 +12,27 @@ function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  // Fonction pour gérer le processus de connexion
   const handleLogin = async () => {
     try {
+      // Récupérer les informations d'identification depuis les états locaux
       const credentials = {
         email,
         password,
       };
-  
+  // Appeler la fonction loginUser du service API pour effectuer la requête de connexion
       const data = await loginUser(credentials);
+
       console.log('Retour requet', data);
+
+      // Mettre à jour le token d'authentification dans le store Redux
       dispatch(setAuthToken(data.body.token));
+      // Effectuer une requête pour récupérer le profil de l'utilisateur avec le nouveau token
       dispatch(fetchUserProfile(data.body.token));
-  
+  // Rediriger l'utilisateur vers la page de profil après une connexion réussie
       navigate('/profile');
     } catch (error) {
+       // Gérer les erreurs lors de la connexion
       console.error('Error during login:', error);
     }
   };
