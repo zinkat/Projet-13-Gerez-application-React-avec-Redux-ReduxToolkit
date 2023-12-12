@@ -48,6 +48,8 @@ function SignOut() {
   
       fetchProfile();
     }, [dispatch]);
+
+
     return (
         <nav className="main-nav">
             <NavLink to="/" className="main-nav-logo">
@@ -60,7 +62,7 @@ function SignOut() {
              <i className="fa fa-user-circle"></i>
               {user.firstName}
             </NavLink>
-            <NavLink to="/" className="main-nav-item">
+            <NavLink to="/Logout" className="main-nav-item">
              <i className="fa fa-sign-out"></i>
             Sign Out
            </NavLink>

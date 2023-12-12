@@ -1,15 +1,15 @@
 import "./Login.css";
-import Header from "../../components/Header/Header";
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setAuthToken, fetchUserProfile } from '../../features/authSlice';
+import { setAuthToken } from '../../features/authSlice';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from "../../services/api";
+import { loginUser, fetchUserProfile } from "../../services/api";
 
 function Login() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const navigate = useNavigate();
 
   // Fonction pour gérer le processus de connexion
@@ -37,9 +37,11 @@ function Login() {
     }
   };
 
+
+
+
   return (
-    <>
-      <Header />
+   
       <main className="main bg-dark">
         <section className="sign-in-content">
           <i className="fa fa-user-circle sign-in-icon"></i>
@@ -67,7 +69,7 @@ function Login() {
             </div>
             <div className="input-remember">
               <input type="checkbox" id="remember-me" />
-              <label htmlFor="remember-me">Remember me</label>
+              <label htmlFor="remember-me"   >Remember me</label>
             </div>
             <button type="button" className="sign-in-button" onClick={handleLogin}>
               Sign In
@@ -75,7 +77,7 @@ function Login() {
           </form>
         </section>
       </main>
-    </>
+  
   );
 }
 

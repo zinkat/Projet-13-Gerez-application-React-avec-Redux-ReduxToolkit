@@ -1,6 +1,5 @@
 import "./accueil.css";
 import Feature from "../../components/Advantage/Advantage";
-import Header from "../../components/Header/Header";
 import iconChat from "../../assets/icon-chat.png";
 import iconMoney from "../../assets/icon-money.png";
 import iconSecurity from "../../assets/icon-security.png";
@@ -11,7 +10,7 @@ function Accueil() {
     return (
    
         <main>
-                 <Header />
+
             <div className="hero">
                 <section className="hero-content">
                     <p className="subtitle">No fees.</p>
