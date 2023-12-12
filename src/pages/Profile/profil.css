@@ -4,7 +4,7 @@
   margin-bottom: 2rem;
 }
 
-#welcome-name{
+#welcome-name {
   margin-top: 0;
 }
 /* Button */
@@ -41,7 +41,7 @@
   display: none;
 }
 
-/* Input */ 
+/* Input */
 .profil-input-wrapper {
   display: inline-flex;
   flex-direction: column;
