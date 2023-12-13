@@ -1,5 +1,5 @@
 import './Login.css'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setAuthToken } from '../../features/authSlice'
 import { useNavigate } from 'react-router-dom'
@@ -9,8 +9,14 @@ function Login() {
   const dispatch = useDispatch()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
+  const [rememberMe, setRememberMe] = useState(false)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    // Vérifier le statut "Remember me" au chargement de la page
+    const rememberMeStatus = localStorage.getItem('rememberMe') === 'true'
+    setRememberMe(rememberMeStatus)
+  }, [])
 
   // Fonction pour gérer le processus de connexion
   const handleLogin = async () => {
@@ -29,6 +35,9 @@ function Login() {
       dispatch(setAuthToken(data.body.token))
       // Effectuer une requête pour récupérer le profil de l'utilisateur avec le nouveau token
       dispatch(fetchUserProfile(data.body.token))
+      // Enregistrer le statut "Remember me" dans localStorage
+      localStorage.setItem('rememberMe', rememberMe.toString())
+
       // Rediriger l'utilisateur vers la page de profil après une connexion réussie
       navigate('/profile')
     } catch (error) {
@@ -64,7 +73,12 @@ function Login() {
             />
           </div>
           <div className="input-remember">
-            <input type="checkbox" id="remember-me" />
+            <input
+              type="checkbox"
+              id="remember-me"
+              checked={rememberMe}
+              onChange={() => setRememberMe(!rememberMe)}
+            />
             <label htmlFor="remember-me">Remember me</label>
           </div>
           <button

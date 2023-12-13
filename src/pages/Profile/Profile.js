@@ -1,32 +1,47 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setUserProfile, profileFetchFailed } from '../../features/authSlice'
+import { setUserProfile, profileFetchFailed, } from '../../features/authSlice'
 import Account from '../../components/Account/Account'
 import '../Profile/profil.css'
 import { fetchUserProfile, updateProfile } from '../../services/api'
+import Loading from '../../components/loader/Loading'
+import { useNavigate } from 'react-router-dom'
 
 function Profile() {
+
   const dispatch = useDispatch() //Envoie une action au store qui déclenche des mises à jour de l'état
   const user = useSelector((state) => state.auth.user) //extraire des données du store Redux
+  const navigate = useNavigate()
+
+
 
   useEffect(() => {
+
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem('token')
         const userProfile = await dispatch(fetchUserProfile(token))
         dispatch(setUserProfile(userProfile.payload))
+        if(!token){
+          navigate('/login')
+        }
+        // Gérez la déconnexion automatique lors du démontage du composant
+    
       } catch (error) {
         console.error('Error fetching user profile:', error)
         dispatch(profileFetchFailed())
       }
+      
     }
+ 
     // Exécutez la fonction pour récupérer le profil lors du montage du composant
     fetchProfile()
-  }, [dispatch])
+  }, [dispatch, navigate ])
+  
 
   if (!user) {
-    // Gérez le cas où le profil n'est pas encore disponible
-    return <div>Loading...</div>
+  // Gérez le cas où le profil n'est pas encore disponible
+    return <Loading />
   }
 
   // Edit name

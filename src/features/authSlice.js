@@ -7,7 +7,6 @@ const authSlice = createSlice({
     token: localStorage.getItem('token') || null,
     user: null,
     isAuthenticated: false,
-    rememberMe: false,
     status: 'idle',
     error: null,
   },
@@ -43,3 +42,4 @@ export const { setAuthToken, setUserProfile, profileFetchFailed } =
   authSlice.actions
 
 export default authSlice.reducer
+

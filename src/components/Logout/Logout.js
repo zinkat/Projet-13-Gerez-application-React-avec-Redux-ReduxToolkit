@@ -9,6 +9,7 @@ function Logout() {
   useEffect(() => {
     // Supprimer le token du stockage local
     localStorage.removeItem('token')
+   
 
     // Mettre à jour le store Redux avec un token vide et un profil vide
     dispatch(setAuthToken(''))

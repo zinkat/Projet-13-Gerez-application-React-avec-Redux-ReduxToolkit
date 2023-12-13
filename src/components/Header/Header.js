@@ -4,47 +4,22 @@ import logo from '../../assets/argentBankLogo.png'
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setUserProfile, profileFetchFailed } from '../../features/authSlice'
+import { fetchUserProfile } from '../../services/api'
 
 function Header() {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
-
+  const token = localStorage.getItem('token')
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         // Récupérez le token depuis le local storage
-        const token = localStorage.getItem('token')
-
+        //const token = localStorage.getItem('token')
         // Vérifiez si un token est présent avant de faire la requête de profil
         if (token) {
-          const response = await fetch(
-            'http://localhost:3001/api/v1/user/profile',
-            {
-              method: 'POST',
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            },
-          )
-
-          if (!response.ok) {
-            const errorData = await response.json()
-            console.error('Error fetching user profile:', errorData)
-            throw new Error('Failed to fetch user profile')
-          }
-
-          const profileData = await response.json()
-
-          // Assurez-vous que le corps de la réponse contient les propriétés correctes du profil
-          const userProfile = {
-            id: profileData.body.id,
-            email: profileData.body.email,
-            firstName: profileData.body.firstName,
-            lastName: profileData.body.lastName,
-            // Ajoutez d'autres propriétés si nécessaire
-          }
-
-          dispatch(setUserProfile(userProfile))
+          const token = localStorage.getItem('token')
+          const userProfile = await dispatch(fetchUserProfile(token))
+          dispatch(setUserProfile(userProfile.payload))
         }
       } catch (error) {
         console.error('Error fetching user profile:', error)
@@ -53,7 +28,7 @@ function Header() {
     }
 
     fetchProfile()
-  }, [dispatch])
+  }, [dispatch, token])
 
   return (
     <nav className="main-nav">
@@ -66,9 +41,9 @@ function Header() {
       </NavLink>
       <div></div>
       <div>
-        {user ? (
+        {user && token ? (
           <>
-            <NavLink className="main-nav-item" to="./user.html">
+            <NavLink className="main-nav-item" to="./profile">
               <i className="fa fa-user-circle"></i>
               {user.firstName}
             </NavLink>
