@@ -23,3 +23,13 @@
   padding: 8px;
   width: 100%;
 }
+@media (max-width: 420px) {
+  .erreur-404 {
+    padding: 0rem;
+  }
+  .btn-404 {
+    padding: 8px;
+    width: 80%;
+    margin: auto;
+  }
+}

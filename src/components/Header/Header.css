@@ -37,3 +37,11 @@
 .main-nav-item .fa {
   margin-right: 5px;
 }
+@media (max-width: 420px) {
+  .main-nav {
+    padding: 10px 5px;
+  }
+  .navBar {
+    display: flex;
+  }
+}

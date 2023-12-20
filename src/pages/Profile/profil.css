@@ -3,6 +3,11 @@
   color: #fff;
   margin-bottom: 2rem;
 }
+.bg-darkProfil {
+  background-color: #12002b;
+  height: 700px;
+  padding-top: 3rem;
+}
 
 #welcome-name {
   margin-top: 0;
@@ -53,4 +58,9 @@
   font-size: 1.2rem;
   margin: 10px 5px;
   padding: 5px;
+}
+@media (max-width: 720px) {
+  .bg-darkProfil {
+    height: 850px;
+  }
 }

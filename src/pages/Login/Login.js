@@ -1,9 +1,20 @@
+/**
+ * Login component handles user authentication.
+ * @module Login
+ */
+
 import './Login.css'
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setAuthToken } from '../../features/authSlice'
 import { useNavigate } from 'react-router-dom'
 import { loginUser, fetchUserProfile } from '../../services/api'
+
+/**
+ * Login component.
+ * @function Login
+ * @returns {JSX.Element} - Rendered Login component.
+ */
 
 function Login() {
   const dispatch = useDispatch()
@@ -19,6 +30,12 @@ function Login() {
   }, [])
 
   // Fonction pour gérer le processus de connexion
+  
+  /**
+   * Handles the login process.
+   * @function
+   * @async
+   */
   const handleLogin = async () => {
     try {
       // Récupérer les informations d'identification depuis les états locaux

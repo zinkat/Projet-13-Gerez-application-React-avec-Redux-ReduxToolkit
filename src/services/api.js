@@ -1,82 +1,107 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'
 
-// Définition de l'URL de base pour les requêtes API
-const BASE_URL = 'http://localhost:3001/api/v1'
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
+const BASE_URL = 'http://localhost:3001/api/v1';
 
 // Fonction pour la requête de connexion utilisateur
+/**
+ * Fonction pour effectuer une requête de connexion utilisateur.
+ * @function
+ * @async
+ * @param {Object} credentials - Informations d'identification de l'utilisateur.
+ * @param {string} credentials.email - Adresse e-mail de l'utilisateur.
+ * @param {string} credentials.password - Mot de passe de l'utilisateur.
+ * @throws {Error} Lance une erreur si la connexion échoue.
+ * @returns {Promise<Object>} Les données de réponse de la requête.
+ */
 export const loginUser = async (credentials) => {
   try {
-       // Envoi de la requête POST pour la connexion
     const response = await fetch(`${BASE_URL}/user/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(credentials),
-    })
-   // Gestion des erreurs en cas de réponse non réussie
+    });
+
     if (!response.ok) {
-      const errorData = await response.json()
-      console.error('Error during login:', errorData)
-      throw new Error('Login failed')
+      const errorData = await response.json();
+      console.error('Error during login:', errorData);
+      throw new Error('Login failed');
     }
-    // Traitement de la réponse réussie
-    const responseData = await response.json()
-    const token = responseData.body.token
-    // Stockage du token dans le stockage local
-    console.log('Token stored in local storage:', token)
-    localStorage.setItem('token', token)
- // Retourne les données de réponse
-    return responseData
+
+    const responseData = await response.json();
+    const token = responseData.body.token;
+    localStorage.setItem('token', token);
+
+    return responseData;
   } catch (error) {
-    console.error('Error during login:', error)
-    throw error
+    console.error('Error during login:', error);
+    throw error;
   }
-}
+};
 
 // Création d'une action asynchrone pour récupérer le profil utilisateur
+/**
+ * Action asynchrone pour récupérer le profil utilisateur.
+ * @function
+ * @async
+ * @param {string} token - Token d'authentification de l'utilisateur.
+ * @param {Object} thunkAPI - Objet fourni par Redux Toolkit pour la gestion des actions asynchrones.
+ * @param {Function} thunkAPI.rejectWithValue - Fonction pour rejeter la promesse avec une valeur.
+ * @throws {Error} Rejette la promesse avec une erreur en cas d'échec de la requête.
+ * @returns {Promise<Object>} Le profil utilisateur.
+ */
 export const fetchUserProfile = createAsyncThunk(
   'auth/fetchUserProfile',
   async (token, { rejectWithValue }) => {
     try {
-      // Envoi de la requête POST pour récupérer le profil utilisateur
       const response = await fetch(`${BASE_URL}/user/profile`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
- // Gestion des erreurs en cas de réponse non réussie
+      });
+
       if (!response.ok) {
-        const errorData = await response.json()
-        console.error('Error fetching user profile:', errorData)
-        throw new Error('Failed to fetch user profile')
+        const errorData = await response.json();
+        console.error('Error fetching user profile:', errorData);
+        throw new Error('Failed to fetch user profile');
       }
-   // Traitement de la réponse réussie pour créer un objet userProfile
-      const profileData = await response.json()
+
+      const profileData = await response.json();
 
       const userProfile = {
         id: profileData.body.id,
         email: profileData.body.email,
         firstName: profileData.body.firstName,
         lastName: profileData.body.lastName,
-      }
-// Retourne le profil utilisateur
-      return userProfile
+      };
+
+      return userProfile;
     } catch (error) {
-       // Rejet de la promesse avec l'erreur
-      return rejectWithValue(error)
+      return rejectWithValue(error);
     }
   },
-)
+);
 
 // Création d'une action asynchrone pour mettre à jour le profil utilisateur
+/**
+ * Action asynchrone pour mettre à jour le profil utilisateur.
+ * @function
+ * @async
+ * @param {Object} params - Paramètres de la requête.
+ * @param {string} params.token - Token d'authentification de l'utilisateur.
+ * @param {Object} params.updatedProfile - Profil utilisateur mis à jour.
+ * @param {Function} thunkAPI - Objet fourni par Redux Toolkit pour la gestion des actions asynchrones.
+ * @param {Function} thunkAPI.rejectWithValue - Fonction pour rejeter la promesse avec une valeur.
+ * @throws {Error} Rejette la promesse avec une erreur en cas d'échec de la requête.
+ * @returns {Promise<Object>} Les données de réponse de la requête.
+ */
 export const updateProfile = createAsyncThunk(
   'auth/updateProfile',
   async ({ token, updatedProfile }, { rejectWithValue }) => {
     try {
-      // Envoi de la requête PUT pour mettre à jour le profil utilisateur
       const response = await fetch(`${BASE_URL}/user/profile`, {
         method: 'PUT',
         headers: {
@@ -84,19 +109,28 @@ export const updateProfile = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(updatedProfile),
-      })
- // Gestion des erreurs en cas de réponse non réussie
+      });
+
       if (!response.ok) {
-        const errorData = await response.json()
-        console.error('Error updating user profile:', errorData)
-        throw new Error('Failed to update user profile')
+        const errorData = await response.json();
+        console.error('Error updating user profile:', errorData);
+        throw new Error('Failed to update user profile');
       }
- // Traitement de la réponse réussie
-      const updatedProfileData = await response.json()
-      return updatedProfileData
+
+      const updatedProfileData = await response.json();
+      return updatedProfileData;
     } catch (error) {
-       // Rejet de la promesse avec l'erreur
-      return rejectWithValue(error)
+      return rejectWithValue(error);
     }
   },
-)
+);
+
+/**
+ * Fonction pour récupérer le token d'authentification depuis le stockage local.
+ * @function
+ * @returns {string|null} Le token d'authentification ou null s'il n'est pas présent.
+ */
+
+export const getTokenFromLocalStorage = () => {
+  return localStorage.getItem('token');
+};

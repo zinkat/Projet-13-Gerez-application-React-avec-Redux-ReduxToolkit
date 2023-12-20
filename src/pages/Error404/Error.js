@@ -1,6 +1,11 @@
 import './error404.css'
 import { NavLink } from 'react-router-dom'
 
+/**
+ * Composant pour la page d'erreur 404.
+ * @component
+ * @returns {JSX.Element} Composant Error404
+ */
 function Error404() {
   return (
     <main className="bg-dark">

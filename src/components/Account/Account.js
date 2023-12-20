@@ -1,5 +1,15 @@
 import './Account.css'
 
+/**
+ * Composant représentant un compte.
+ * @component
+ * @param {Object} props - Les propriétés du composant.
+ * @param {string} props.titre - Le titre du compte.
+ * @param {number} props.montant - Le montant du compte.
+ * @param {string} props.description - La description du compte.
+ * @returns {JSX.Element} Composant Account
+ */
+
 function Account({ titre, montant, description }) {
   return (
     <section className="account">

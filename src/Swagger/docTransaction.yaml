@@ -1,0 +1,328 @@
+openapi: "3.0.3"
+info:
+  title: Argent Bank API - documentation Transactions
+  contact:
+     name: zineb Katim
+     email: zkatim1301@gmail.com
+  description: API model for user transactions
+  version: 1.0.0
+servers:
+  - url: http://localhost:3001/api/v1
+paths:
+  /user/accounts:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User transactions
+      summary: User Accounts API
+      description: fetching user accounts
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          schema: 
+             type: string
+      responses: 
+        "200":
+          description: User accounts retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountsResponse'
+        "400":
+          description: Invalid Fields
+        "401":
+          description: Unauthorized
+        "404":
+          description: Transactions not found
+        "500":
+          description: Internal Server Error
+  /user/account/{accountId}/transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User transactions
+      summary: User Account Transactions API
+      description: API for fetching user transactions on a specific account
+      parameters:
+        - in: path
+          name: accountId
+          schema:
+           type: integer
+          required: true
+          description: Numeric ID of the account to get
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: User accounts retrieved successully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountTransactionsResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /user/account/{accountId}/transaction/{transactionId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User transactions
+      summary: User Transaction API
+      description: API for fetching a specific user transaction
+      parameters:
+        - in: path
+          name: accountId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the account to get
+        - in: path
+          name: transactionId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the transaction to get
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: User transaction retrieved successully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error  
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User transactions
+      summary: User Transaction API
+      description: API for updating details on a specific user transaction
+      parameters:
+        - in: path
+          name: accountId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the account to get
+        - in: path
+          name: transactionId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the transaction to get
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          schema:
+            type: string
+          required: true
+      requestBody:
+          description: Update user transaction attributes
+          required: true
+          content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/EditTransaction'
+      responses:
+        '200':
+          description: User transaction retrieved successully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User transactions
+      summary: User Transaction API
+      description: API for adding details on a specific user transaction
+      parameters:
+        - in: path
+          name: accountId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the account to get
+        - in: path
+          name: transactionId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the transaction to get
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          schema:
+            type: string
+          required: true
+      requestBody:
+          description: Add user transaction attributes
+          required: true
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/AddTransaction'
+      responses:
+        '200':
+          description: User transaction retrieved successully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+
+tags:
+  - name: User transactions
+  
+components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+  schemas:
+      AccountsResponse:
+        type: object
+        properties:
+          status:
+            type: integer
+          message:
+            type: string
+          body:
+            type: array
+            items:
+              properties:
+                checking:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    balance:
+                      type: number
+                savings:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    balance:
+                      type: number
+                creditcard:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    balance:
+                      type: number
+      AccountTransactionsResponse:
+        type: object
+        properties:
+          status:
+            type: integer
+          message:
+            type: string
+          body:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                date:
+                  type: string
+                description:
+                  type: string
+                amount:
+                  type: number
+                balance:
+                  type: number
+      TransactionResponse:
+        type: object
+        properties:
+          status:
+            type: integer
+          message:
+            type: string
+          body:
+            type: object
+            properties:
+              date:
+                type: string
+              description:
+                type: string
+              amount:
+                type: number
+              balance:
+                type: number
+              type:
+                type: string
+              category:
+                type: string
+              notes:
+                type: string
+      Transaction:
+        type: object
+        properties:
+          category:
+            type: string
+            description: transaction category (to choose among several possibilities)
+          notes:
+            type: string
+            description: transaction notes by the user
+      EditTransaction:
+        type: object
+        properties:
+          newCategory:
+            type: string
+            description: transaction category (to choose among several possibilities)
+          newNotes:
+            type: string
+            description: transaction notes by the user
+      AddTransaction:
+        type: object
+        properties:
+            accountId:
+                type: string
+                description: AccountId containing the new transaction
+            amount:
+                type: number
+                description: Amount of the new transaction
+            description:
+                type: string
+                description: Description of the new transaction
+            category:
+                type: string
+                description: Category of the new transaction
+            notes:
+                type: string
+                description: Notes of the new transaction
+    
+
+
+    

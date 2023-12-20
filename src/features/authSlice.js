@@ -13,12 +13,22 @@ const authSlice = createSlice({
   },
   reducers: {
     // Action pour définir le token d'authentification
+       /**
+     * Action pour définir le token d'authentification.
+     * @param {Object} state - État actuel du slice.
+     * @param {Object} action - Action Redux avec payload contenant le token.
+     */
     setAuthToken: (state, action) => {
       state.token = action.payload
       state.isAuthenticated = true
       localStorage.setItem('token', action.payload)
     },
     // Action pour définir les données utilisateur
+        /**
+     * Action pour définir les données utilisateur.
+     * @param {Object} state - État actuel du slice.
+     * @param {Object} action - Action Redux avec payload contenant les données utilisateur.
+     */
     setUserProfile: (state, action) => {
       state.user = action.payload
     },

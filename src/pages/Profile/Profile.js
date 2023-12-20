@@ -1,26 +1,41 @@
+/**
+ * Profile component displays user profile information.
+ * @module Profile
+ */
+
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setUserProfile, profileFetchFailed, } from '../../features/authSlice'
 import Account from '../../components/Account/Account'
 import '../Profile/profil.css'
-import { fetchUserProfile, updateProfile } from '../../services/api'
+import { getTokenFromLocalStorage, fetchUserProfile, updateProfile } from '../../services/api'
 import Loading from '../../components/loader/Loading'
 import { useNavigate } from 'react-router-dom'
 
+/**
+ * Profile component.
+ * @function Profile
+ * @returns {JSX.Element} - Rendered Profile component.
+ */
 function Profile() {
+  
 
   const dispatch = useDispatch() //Envoie une action au store qui déclenche des mises à jour de l'état
   const user = useSelector((state) => state.auth.user) //extraire des données du store Redux
   const navigate = useNavigate()
-
-
+  const token = getTokenFromLocalStorage();
 
   useEffect(() => {
+       /**
+     * Fetches user profile on component mount.
+     * @function
+     * @async
+     */
  // Fonction asynchrone pour récupérer le profil utilisateur
     const fetchProfile = async () => {
       try {
         // Récupérer le token d'authentification depuis le stockage local
-        const token = localStorage.getItem('token')
+   
         // Appeler l'action Redux pour récupérer le profil utilisateur
         const userProfile = await dispatch(fetchUserProfile(token))
          // Mettre à jour le profil utilisateur dans le store 
@@ -40,7 +55,7 @@ function Profile() {
  
     // Exécutez la fonction pour récupérer le profil lors du montage du composant
     fetchProfile()
-  }, [dispatch, navigate ])
+  }, [dispatch, navigate, token ])
   
 
   if (!user) {
@@ -65,7 +80,7 @@ function Profile() {
   const handleSaveEdit = async () => {
     try {
       // Récupérer le token d'authentification depuis le stockage local
-      const token = localStorage.getItem('token')
+      
        // Récupérer les nouveaux prénoms et noms à partir du formulaire d'édition
       const firstName = document.edit.firstName.value
       const lastName = document.edit.lastName.value
@@ -86,7 +101,7 @@ function Profile() {
   }
 
   return (
-    <main className="bg-dark">
+    <main className="bg-darkProfil">
       <div className="header">
         <h1 id="welcome-name">
           Welcome back

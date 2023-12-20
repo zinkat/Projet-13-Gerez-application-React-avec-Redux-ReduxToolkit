@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import './App.css'
 import Accueil from '../pages/Accueil/Accueil'
 import Login from '../pages/Login/Login'
 import Logout from '../components/Logout/Logout'
