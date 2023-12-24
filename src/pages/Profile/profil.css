@@ -1,4 +1,3 @@
-/* Header */
 .header {
   color: #fff;
   margin-bottom: 2rem;
@@ -9,11 +8,11 @@
   padding-top: 3rem;
 }
 
-#welcome-name {
+#profile-name {
   margin-top: 0;
 }
-/* Button */
-#edit-button {
+
+#editBtn {
   background-color: #00bc77;
   border-color: #00bc77;
   color: #fff;
@@ -21,7 +20,11 @@
   padding: 10px;
 }
 
-.save-button {
+#editForm {
+  display: none;
+}
+
+.saveBtn {
   background-color: #00bc77;
   border-color: #00bc77;
   color: #fff;
@@ -31,7 +34,7 @@
   padding: 10px;
 }
 
-.cancel-button {
+.cancelBtn {
   background-color: #fff;
   border-color: #00bc77;
   color: #00bc77;
@@ -41,20 +44,14 @@
   padding: 10px;
 }
 
-/* Form */
-#edit-section {
-  display: none;
-}
-
-/* Input */
-.profil-input-wrapper {
+.input-name {
   display: inline-flex;
   flex-direction: column;
   margin-bottom: 1rem;
   text-align: left;
 }
 
-.profil-input-wrapper input {
+.input-name input {
   font-size: 1.2rem;
   margin: 10px 5px;
   padding: 5px;

@@ -1,9 +1,6 @@
+import { createAsyncThunk } from '@reduxjs/toolkit'
+const BASE_URL = 'http://localhost:3001/api/v1'
 
-import { createAsyncThunk } from '@reduxjs/toolkit';
-
-const BASE_URL = 'http://localhost:3001/api/v1';
-
-// Fonction pour la requête de connexion utilisateur
 /**
  * Fonction pour effectuer une requête de connexion utilisateur.
  * @function
@@ -22,24 +19,24 @@ export const loginUser = async (credentials) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(credentials),
-    });
+    })
 
     if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Error during login:', errorData);
-      throw new Error('Login failed');
+      const errorData = await response.json()
+      console.error('Error during login:', errorData)
+      throw new Error('Login failed')
     }
 
-    const responseData = await response.json();
-    const token = responseData.body.token;
-    localStorage.setItem('token', token);
+    const responseData = await response.json()
+    const token = responseData.body.token
+    localStorage.setItem('token', token)
 
-    return responseData;
+    return responseData
   } catch (error) {
-    console.error('Error during login:', error);
-    throw error;
+    console.error('Error during login:', error)
+    throw error
   }
-};
+}
 
 // Création d'une action asynchrone pour récupérer le profil utilisateur
 /**
@@ -61,31 +58,29 @@ export const fetchUserProfile = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
+      })
 
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Error fetching user profile:', errorData);
-        throw new Error('Failed to fetch user profile');
+        const errorData = await response.json()
+        console.error('Error fetching user profile:', errorData)
+        throw new Error('Failed to fetch user profile')
       }
-
-      const profileData = await response.json();
+      const profileData = await response.json()
 
       const userProfile = {
         id: profileData.body.id,
         email: profileData.body.email,
         firstName: profileData.body.firstName,
         lastName: profileData.body.lastName,
-      };
+      }
 
-      return userProfile;
+      return userProfile
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error)
     }
   },
-);
+)
 
-// Création d'une action asynchrone pour mettre à jour le profil utilisateur
 /**
  * Action asynchrone pour mettre à jour le profil utilisateur.
  * @function
@@ -109,21 +104,21 @@ export const updateProfile = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(updatedProfile),
-      });
+      })
 
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Error updating user profile:', errorData);
-        throw new Error('Failed to update user profile');
+        const errorData = await response.json()
+        console.error('Error updating user profile:', errorData)
+        throw new Error('Failed to update user profile')
       }
 
-      const updatedProfileData = await response.json();
-      return updatedProfileData;
+      const updatedProfileData = await response.json()
+      return updatedProfileData
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error)
     }
   },
-);
+)
 
 /**
  * Fonction pour récupérer le token d'authentification depuis le stockage local.
@@ -132,5 +127,5 @@ export const updateProfile = createAsyncThunk(
  */
 
 export const getTokenFromLocalStorage = () => {
-  return localStorage.getItem('token');
-};
+  return localStorage.getItem('token')
+}

@@ -2,7 +2,7 @@ openapi: "3.0.3"
 info:
   title: Argent Bank API - documentation Transactions
   contact:
-     name: zineb Katim
+     name: zineb
      email: zkatim1301@gmail.com
   description: API model for user transactions
   version: 1.0.0
@@ -39,6 +39,7 @@ paths:
           description: Transactions not found
         "500":
           description: Internal Server Error
+          
   /user/account/{accountId}/transactions:
     get:
       security:
@@ -69,8 +70,13 @@ paths:
                 $ref: '#/components/schemas/AccountTransactionsResponse'
         '400':
           description: Invalid Fields
+        "401":
+          description: Unauthorized        
+        "404":
+          description: Transactions not found  
         '500':
           description: Internal Server Error
+          
   /user/account/{accountId}/transaction/{transactionId}:
     get:
       security:
@@ -107,8 +113,13 @@ paths:
                 $ref: '#/components/schemas/TransactionResponse'
         '400':
           description: Invalid Fields
+        "401":
+          description: Unauthorized        
+        "404":
+          description: Transactions not found  
         '500':
           description: Internal Server Error  
+          
     put:
       security:
         - Bearer: []
@@ -151,15 +162,20 @@ paths:
                 $ref: '#/components/schemas/TransactionResponse'
         '400':
           description: Invalid Fields
+        "401":
+          description: Unauthorized        
+        "404":
+          description: Transactions not found  
         '500':
           description: Internal Server Error
+          
     post:
       security:
         - Bearer: []
       tags:
         - User transactions
       summary: User Transaction API
-      description: API for adding details on a specific user transaction
+      description: API for adding a new transaction
       parameters:
         - in: path
           name: accountId
@@ -195,9 +211,13 @@ paths:
                 $ref: '#/components/schemas/TransactionResponse'
         '400':
           description: Invalid Fields
+        "401":
+          description: Unauthorized        
+        "404":
+          description: Transactions not found  
         '500':
           description: Internal Server Error
-
+          
 tags:
   - name: User transactions
   
@@ -286,42 +306,34 @@ components:
                 type: string
               notes:
                 type: string
-      Transaction:
-        type: object
-        properties:
-          category:
-            type: string
-            description: transaction category (to choose among several possibilities)
-          notes:
-            type: string
-            description: transaction notes by the user
       EditTransaction:
         type: object
         properties:
           newCategory:
             type: string
-            description: transaction category (to choose among several possibilities)
+            description: transaction category 
           newNotes:
             type: string
             description: transaction notes by the user
       AddTransaction:
         type: object
         properties:
-            accountId:
-                type: string
-                description: AccountId containing the new transaction
-            amount:
-                type: number
-                description: Amount of the new transaction
+            date:
+              type: string
             description:
-                type: string
-                description: Description of the new transaction
+              type: string
+            amount:
+              type: number
+            balance:
+              type: number
+            type:
+              type: string        
             category:
-                type: string
-                description: Category of the new transaction
+              type: string
+              description: Category of the new transaction
             notes:
-                type: string
-                description: Notes of the new transaction
+              type: string
+              description: Notes of the new transaction
     
 
 

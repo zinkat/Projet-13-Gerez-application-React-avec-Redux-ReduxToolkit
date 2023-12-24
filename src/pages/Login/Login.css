@@ -58,15 +58,15 @@ main {
 
 /* Button */
 .sign-in-button {
-  background-color: #00bc77;
-  border-color: #00bc77;
-  color: #fff;
   display: block;
   font-size: 1.1rem;
   font-weight: bold;
   margin-top: 1rem;
   padding: 8px;
   width: 100%;
+  background-color: #00bc77;
+  border-color: #00bc77;
+  color: #fff;
 }
 @media (max-width: 420px) {
   .bg-dark {

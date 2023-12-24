@@ -17,7 +17,7 @@ import { loginUser, fetchUserProfile } from '../../services/api'
  */
 
 function Login() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch() //Envoie une action au store qui déclenche des mises à jour de l'état
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
@@ -29,10 +29,8 @@ function Login() {
     setRememberMe(rememberMeStatus)
   }, [])
 
-  // Fonction pour gérer le processus de connexion
-  
   /**
-   * Handles the login process.
+   * Fonction pour gérer le processus de connexion
    * @function
    * @async
    */

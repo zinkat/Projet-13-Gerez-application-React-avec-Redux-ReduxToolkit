@@ -12,8 +12,7 @@ const authSlice = createSlice({
     error: null, // Erreur en cas de problème
   },
   reducers: {
-    // Action pour définir le token d'authentification
-       /**
+    /**
      * Action pour définir le token d'authentification.
      * @param {Object} state - État actuel du slice.
      * @param {Object} action - Action Redux avec payload contenant le token.
@@ -23,8 +22,8 @@ const authSlice = createSlice({
       state.isAuthenticated = true
       localStorage.setItem('token', action.payload)
     },
-    // Action pour définir les données utilisateur
-        /**
+
+    /**
      * Action pour définir les données utilisateur.
      * @param {Object} state - État actuel du slice.
      * @param {Object} action - Action Redux avec payload contenant les données utilisateur.
@@ -32,12 +31,14 @@ const authSlice = createSlice({
     setUserProfile: (state, action) => {
       state.user = action.payload
     },
-    
+
     // Action pour gérer l'échec de la récupération du profil utilisateur
-    // profileFetchFailed: (state) => {
-    //   state.profileFetchError = true;  // Ajout d'une propriété pour indiquer l'échec
-    // },
+    profileFetchFailed: (state, action) => {
+      state.error = true
+      state.errorDetails = action.payload
+    },
   },
+
   extraReducers: (builder) => {
     // Gestion des cas extra (autres que les reducers définis ci-dessus) pour les appels asynchrones à l'API
     builder
@@ -57,6 +58,7 @@ const authSlice = createSlice({
       })
   },
 })
+
 // Exporter les actions créées pour être utilisées dans l'application
 export const { setAuthToken, setUserProfile, profileFetchFailed } =
   authSlice.actions

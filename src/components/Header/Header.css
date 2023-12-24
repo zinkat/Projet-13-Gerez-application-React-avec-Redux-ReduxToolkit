@@ -1,4 +1,3 @@
-/* Main Nav */
 .main-nav {
   align-items: center;
   display: flex;
@@ -14,18 +13,10 @@
   color: #42b983;
 }
 
-/* Logo */
 .main-nav-logo {
   align-items: center;
   display: flex;
 }
-
-.main-nav-logo-image {
-  max-width: 100%;
-  width: 200px;
-}
-
-/* Links */
 .main-nav-item {
   margin-right: 0.5rem;
   text-decoration: none;
@@ -37,6 +28,14 @@
 .main-nav-item .fa {
   margin-right: 5px;
 }
+
+.main-nav-logo-image {
+  max-width: 100%;
+  width: 200px;
+}
+
+/* Links */
+
 @media (max-width: 420px) {
   .main-nav {
     padding: 10px 5px;

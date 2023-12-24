@@ -16,7 +16,6 @@ import { fetchUserProfile, getTokenFromLocalStorage } from '../../services/api'
  * @function Header
  * @returns {JSX.Element} - Rendered Header component.
  */
-
 function Header() {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
@@ -50,7 +49,6 @@ function Header() {
     // Exécutez la fonction pour récupérer le profil lors du montage du composant
     fetchProfile()
   }, [dispatch, token])
-
   return (
     <nav className="main-nav">
       {/* Logo Argent Bank avec lien vers la page d'accueil */}

@@ -8,7 +8,6 @@ import { Navigate } from 'react-router-dom'
  * @component
  * @returns {JSX.Element} Composant Logout
  */
-
 function Logout() {
   const dispatch = useDispatch()
 

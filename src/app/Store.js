@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit' //utilisez configureStore pour créer le store Redux de l'application.
+import { configureStore } from '@reduxjs/toolkit' // configureStore pour créer le store Redux de l'application.
 import authReducer from '../features/authSlice'
 
 /**
