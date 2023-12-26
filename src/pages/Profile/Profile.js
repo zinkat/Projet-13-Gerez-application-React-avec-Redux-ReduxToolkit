@@ -40,9 +40,9 @@ function Profile() {
         const userProfile = await dispatch(fetchUserProfile(token))
         // Mettre à jour le profil utilisateur dans le store
         dispatch(setUserProfile(userProfile.payload))
-        // Rediriger vers la page de connexion si le token n'est pas présent
+        // Rediriger vers la page d Error si le token n'est pas présent
         if (!token) {
-          navigate('/login')
+          navigate('/Error')
         }
       } catch (error) {
         console.error('Error fetching user profile:', error)
