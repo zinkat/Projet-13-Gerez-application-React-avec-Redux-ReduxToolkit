@@ -56,6 +56,16 @@ const authSlice = createSlice({
         state.status = 'failed'
         state.error = action.payload
       })
+
+      .addCase(api.updateProfile.fulfilled, (state, action) => {
+        // Mettre à jour l'état avec les nouvelles données du profil utilisateur
+        state.user = action.payload;
+        state.status = 'succeeded';
+      })
+      .addCase(api.updateProfile.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      });
   },
 })
 

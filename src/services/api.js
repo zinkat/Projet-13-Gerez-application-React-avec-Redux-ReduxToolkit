@@ -113,7 +113,9 @@ export const updateProfile = createAsyncThunk(
       }
 
       const updatedProfileData = await response.json()
+      console.log(updatedProfileData);
       return updatedProfileData
+
     } catch (error) {
       return rejectWithValue(error)
     }

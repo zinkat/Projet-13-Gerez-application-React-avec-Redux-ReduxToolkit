@@ -93,10 +93,19 @@ function Profile() {
 
       // Appeler l'action Redux pour mettre à jour le profil utilisateur
       await dispatch(updateProfile({ token, updatedProfile }))
+
       // Afficher un message dans la console après la sauvegarde réussie
       console.log('Profile changes saved successfully!')
-      // Recharger la page pour refléter les modifications dans le rendu
-      window.location.reload()
+
+      // Appeler l'action Redux pour récupérer le profil utilisateur du store après le update
+      const userProfile = await dispatch(fetchUserProfile(token))
+      // Mettre à jour le profil utilisateur dans le store
+      dispatch(setUserProfile(userProfile.payload))
+      // rappeler la fonction handelEditCancel pour déactiver le mode d'edition
+      handleEditCancel()
+
+      document.edit.firstName.value = ''
+      document.edit.lastName.value = ''
     } catch (error) {
       console.error('Failed to save user profile:', error)
     }
