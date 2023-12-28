@@ -17,23 +17,27 @@ import { loginUser, fetchUserProfile } from '../../services/api'
  */
 
 function Login() {
-  const dispatch = useDispatch() //Envoie une action au store qui déclenche des mises à jour de l'état
+  const dispatch = useDispatch()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
   const navigate = useNavigate()
 
+  // Effet secondaire pour gérer le statut "Remember me" au chargement de la page
   useEffect(() => {
-    // Vérifier le statut "Remember me" au chargement de la page
     const rememberMeStatus = localStorage.getItem('rememberMe') === 'true'
     setRememberMe(rememberMeStatus)
+
+    // Si "Remember me" est activé, charger les identifiants depuis le localStorage
+    if (rememberMeStatus) {
+      const storedEmail = localStorage.getItem('email') || ''
+      const storedPassword = localStorage.getItem('password') || ''
+      setEmail(storedEmail)
+      setPassword(storedPassword)
+    }
   }, [])
 
-  /**
-   * Fonction pour gérer le processus de connexion
-   * @function
-   * @async
-   */
+  // Fonction pour gérer le processus de connexion
   const handleLogin = async () => {
     try {
       // Récupérer les informations d'identification depuis les états locaux
@@ -41,32 +45,36 @@ function Login() {
         email,
         password,
       }
+
       // Appeler la fonction loginUser du service API pour effectuer la requête de connexion
       const data = await loginUser(credentials)
-  
-      console.log('Retour requet', data)
-  
+
       // Mettre à jour le token d'authentification dans le store Redux
       dispatch(setAuthToken(data.body.token))
-      // Effectuer une requête pour récupérer le profil de l'utilisateur avec le nouveau token
+
+      // Appeler la fonction fetchUserProfile pour récupérer le profil de l'utilisateur avec le nouveau token
       dispatch(fetchUserProfile(data.body.token))
-      // Enregistrer le statut "Remember me" dans localStorage
-      localStorage.setItem('rememberMe', rememberMe.toString())
-  
+
+      // Enregistrer le statut "Remember me" et les identifiants dans localStorage
+      if (rememberMe) {
+        localStorage.setItem('rememberMe', 'true')
+        localStorage.setItem('email', email)
+        localStorage.setItem('password', password)
+      } else {
+        // Si "Remember me" n'est pas coché, supprimer les données du localStorage
+        localStorage.removeItem('rememberMe')
+        localStorage.removeItem('email')
+        localStorage.removeItem('password')
+      }
+
       // Rediriger l'utilisateur vers la page de profil après une connexion réussie
       navigate('/profile')
     } catch (error) {
       // Gérer les erreurs lors de la connexion
       console.error('Error during login:', error)
-  
-      // Ajouter une gestion des erreurs pour afficher un message à l'utilisateur
-      if (error.response && error.response.status !== 200) {
-        // Si le statut de la réponse n'est pas 200 
-        alert('Invalid email or password. Please try again.')
-      } else {
-      
-        alert('Invalid email or password. Please try again.')
-      }
+
+      // Afficher un message d'erreur à l'utilisateur
+      alert('Invalid email or password. Please try again.')
     }
   }
   return (
